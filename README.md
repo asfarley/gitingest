@@ -30,3 +30,7 @@ Using this script (and the default Git log view), the project history commits wi
 Alternatively, GitExtensions provides an option to enable sorting by author-date: View->Sort commits by author date.
 
 This script assumes that your main project folder already has a .gitignore in place. When cleaning out the folder between commits, this script leaves the .gitignore file in-place to avoid committing undesired artifacts contained in the archives.
+
+It is recommended to manually compare the repository commit-history against the archives being checked in; this script assumes that any archives in zipfiles.txt have *not* already been checked in. Thus, running the script twice with the same set of archives will result in each archive being committed twice.
+
+This script leaves the working directory in a dirty state (by deleting all non-hidden files). Expect to have to 'reset all changes' using Git after executing this script. 
