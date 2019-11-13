@@ -21,3 +21,8 @@ The archive naming convention is assumed to be:
 
 This script takes no command-line input. Just execute this script in the same directory as zipfiles.txt, e.g.:
 ```ruby gitingest.rb```
+
+Using this script (and the default Git log view), the project history commits will appear to have happened at the same time. Try using the following option to display commits by author-date:
+```git log --author-date-order```
+
+Alternatively, GitExtensions provides an option to enable sorting by author-date: View->Sort commits by author date.
