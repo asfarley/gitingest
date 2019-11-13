@@ -19,6 +19,8 @@ Users may need to check in project histories containing multiple branches. This 
 The archive naming convention is assumed to be:
 ```[Project name]_[Major version]x[Minor version]_[YYYYMMDD].7z```
 
+The 
+
 This script takes no command-line input. Just execute this script in the same directory as zipfiles.txt, e.g.:
 ```ruby gitingest.rb```
 
@@ -26,3 +28,5 @@ Using this script (and the default Git log view), the project history commits wi
 ```git log --author-date-order```
 
 Alternatively, GitExtensions provides an option to enable sorting by author-date: View->Sort commits by author date.
+
+This script assumes that your main project folder already has a .gitignore in place. When cleaning out the folder between commits, this script leaves the .gitignore file in-place to avoid committing undesired artifacts contained in the archives.
