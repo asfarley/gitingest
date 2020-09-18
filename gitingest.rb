@@ -1,10 +1,10 @@
 require 'time'
 require 'FileUtils'
 
-OUTPUT_DIR = "C:/Vital-Sim/VSLS"
+OUTPUT_DIR = "C:/Vital-Sim/vsls"
 
 def is_datestring(str)
-	%w(2012 2013 2014 2015 2016 2017 2018 2019).any?{ |y| str.include? y }
+	%w(2012 2013 2014 2015 2016 2017 2018 2019 2020).any?{ |y| (str.include? y )&& (!str.include? "VS") }
 end
 
 def select_datestring(parts)
@@ -17,7 +17,7 @@ def select_datestring(parts)
 end
  
 def datestring_from_path(path)
-	select_datestring(path.split('_'))
+	select_datestring(File.basename(path).split('_'))
 end
 
 def version_from_path(path)
@@ -27,7 +27,7 @@ def version_from_path(path)
 end
 
 def trailing_number_from_path(path)
-	fields = path.split('_')
+	fields = File.basename(path).split('_')
 	if fields.count <= 3 
 		return 0.0
 	elsif fields.count >= 4
