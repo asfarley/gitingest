@@ -41,7 +41,7 @@ Execute the script by calling it with the two command-line inputs:
 
 ## Viewing the results
 
-Using this script (and the default Git log view), the project history commits will appear to have happened at the time indicated by the filename rather than the time when the commit actually occurs. Try using the following option to display commits by author-date:  
+Using this script (and the default Git log view), the project history commits will appear to have happened simultaneously at the current time (rather than the historic time contained in the archive's filename). Try using the following option to display commits by author-date:  
 ```git log --author-date-order```
 
 Alternatively, [GitExtensions](http://gitextensions.github.io/) provides an option to enable sorting by author-date: View->Sort commits by author date.
