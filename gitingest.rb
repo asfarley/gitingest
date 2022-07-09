@@ -1,7 +1,6 @@
 require 'time'
 require 'fileutils'
 require 'optparse'
-require 'debug'
 
 # Cross-platform way of finding an executable in the $PATH.
 #
