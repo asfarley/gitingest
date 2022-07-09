@@ -1,9 +1,24 @@
 require 'time'
-require 'FileUtils'
+require 'fileutils'
 require 'optparse'
+require 'debug'
+
+# Cross-platform way of finding an executable in the $PATH.
+#
+#   which('ruby') #=> /usr/bin/ruby
+def which(cmd)
+  exts = ENV['PATHEXT'] ? ENV['PATHEXT'].split(';') : ['']
+  ENV['PATH'].split(File::PATH_SEPARATOR).each do |path|
+    exts.each do |ext|
+      exe = File.join(path, "#{cmd}#{ext}")
+      return exe if File.executable?(exe) && !File.directory?(exe)
+    end
+  end
+  nil
+end
 
 def is_datestring(str)
-	%w(2012 2013 2014 2015 2016 2017 2018 2019 2020 2021 2022 2023 2024 2025 2026 2027 2028 2029 2030).any?{ |y| (str.include? y )&& (!str.downcase.include? "vs") }
+	str.match(/\A[12][0-9][0-9][0-9]/)
 end
 
 def select_datestring(parts)
@@ -49,17 +64,17 @@ def sort_paths_by_filename_version(zipfiles)
 end
 
 def extract_zipfile(path, output)
-	puts "Command: 7z x #{path} -o#{output}"
-	`7z x #{path} -o#{output}"` 
-	puts "After extract_zipfile. $? is #{$?}"
-	puts "Done extract_zipfile"
+	win_path = path.gsub('/', '\\') 
+	win_output = output.gsub('/', '\\') 
+	puts "Command: 7z x #{win_path} -o#{win_output}"
+	`7z x #{win_path} -o#{win_output}"` 
 end
 
 def extract_tgz(path, output)
-	puts "Command: tar xf #{path} -C #{output}"
-	`tar xf #{path} -C #{output}` 
-	puts "After extract_tgz. $? is #{$?}"
-	puts "Done extract_tgz"
+	win_path = path.gsub('/', '\\') 
+	win_output = output.gsub('/', '\\') 
+	puts "Command: tar xf #{path} -C #{win_output}"
+	`tar xf #{path} -C #{win_output}` 
 end
 
 def clear_repository_folder(output)
@@ -67,12 +82,10 @@ def clear_repository_folder(output)
 end
 
 def commit_project(zf, output)
-	puts "commit_project:string_to_datetime"
 	datestr = datestring_from_path(zf)
 	datetime = string_to_datetime(datestr)
 	command_string = "cd #{output} && git add --all && git commit -m \"History commit: #{zf}\" --date \"#{datetime.to_s}\""
 	`#{command_string}`
-	puts "Done commit_project"
 end
 
 def confirm_output_folder_empty(dir)
@@ -101,21 +114,24 @@ def extract_commit_cleanup(zf, output)
 end
 
 if __FILE__==$0
+	_7z_path = which('7z')
+	if _7z_path.nil? 
+		puts "This script requires 7z, but it was not found in the path."
+		return
+	end
+	
 	options = {}
 	OptionParser.new do |opt|
-	  opt.on('--zipfiles ZIPFILES') { |o| options[:zipfiles] = o }
+	  opt.on('--input INPUT') { |o| options[:input] = o }
 	  opt.on('--output OUTPUT') { |o| options[:output] = o }
 	end.parse!
 
-	# this will only run if the script was the main, not load'd or require'd
-	zipfiles = []
-	File.readlines(options[:zipfiles]).each do |line|
-		line_sanitized = line.delete("\n").delete("\r")
-		zipfiles.push(line_sanitized)
-	end
+	input_path = options[:input].gsub(File::ALT_SEPARATOR, File::SEPARATOR)	
+	output_path = options[:output].gsub(File::ALT_SEPARATOR, File::SEPARATOR)	
 
+	zipfiles = Dir[input_path + "/*"]
 	puts "Processing #{zipfiles.count} files"
 
 	szf = sort_paths_by_filename_version(zipfiles)
-	szf.each{ |zf| extract_commit_cleanup(zf, options[:output]) }
+	szf.each{ |zf| extract_commit_cleanup(zf, output_path) }
 end
