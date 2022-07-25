@@ -86,7 +86,6 @@ class GitIngest
     
     @input_paths.each do |input_path|
       input_standardized = input_path.gsub(File::ALT_SEPARATOR, File::SEPARATOR) 
-	  puts "input_standardized: " + input_standardized
 	  
       output_path = options.output.gsub(File::ALT_SEPARATOR, File::SEPARATOR) 
 
@@ -130,7 +129,6 @@ class GitIngest
   end
 
   def version_from_path(path)
-  puts "Path: " + path
     major_version = path.split('_')[1].split('x')[0].to_f
     minor_version = path.split('_')[1].split('x')[1].to_f
     version_number = major_version + minor_version/100.0
