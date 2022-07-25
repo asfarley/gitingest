@@ -10,7 +10,7 @@ Dependencies:
  
 ## How to use
 
-The script takes two inputs: --input (a folder containing zipped source projects) and --output (the folder containing the .git repository where the zipped source files are unzipped and committed).
+The script takes two (or more) inputs: --output (the folder containing the .git repository where the zipped source files are unzipped and committed) and a list of input folders containined zipped source files.
 
 It is recommended to manually compare the repository commit-history against the archives being checked in; this script assumes that any archives in zipfiles have *not* already 
 been checked in. Thus, running the script twice with the same set of archives will result in each archive being committed twice. This script is *not* idempotent.
@@ -21,7 +21,11 @@ The archive naming convention is assumed to be:
 ```[Project name]_[Major version]x[Minor version]_[YYYYMMDD].7z```
 
 Execute the script by calling it with the two command-line inputs:  
-```ruby .\gitingest.rb --input [INPUT_PATH] --output [OUTPUT_PATH]```
+```ruby .\gitingest.rb --outpout [OUTPUT_PATH] [INPUT_PATHS...]```
+
+In the above, `INPUT_PATHS` can expand to one or more folder paths to zipped source files. For example:
+
+```ruby .\gitingest.rb --outpout ..\repo_folder\ ..\zipsource_folder\```
 
 ## Viewing the results
 
