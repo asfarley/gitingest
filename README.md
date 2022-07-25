@@ -21,11 +21,11 @@ The archive naming convention is assumed to be:
 ```[Project name]_[Major version]x[Minor version]_[YYYYMMDD].7z```
 
 Execute the script by calling it with the two command-line inputs:  
-```ruby .\gitingest.rb --outpout [OUTPUT_PATH] [INPUT_PATHS...]```
+```ruby .\gitingest.rb --output [OUTPUT_PATH] [INPUT_PATHS...]```
 
 In the above, `INPUT_PATHS` can expand to one or more folder paths to zipped source files. For example:
 
-```ruby .\gitingest.rb --outpout ..\repo_folder\ ..\zipsource_folder\```
+```ruby .\gitingest.rb --output ..\repo_folder\ ..\zipsource_folder\```
 
 ## Viewing the results
 
