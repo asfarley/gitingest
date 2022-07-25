@@ -21,7 +21,7 @@ The archive naming convention is assumed to be:
 ```[Project name]_[Major version]x[Minor version]_[YYYYMMDD].7z```
 
 Execute the script by calling it with the two command-line inputs:  
-```ruby .\gitingest.rb --input .\zipfiles.txt --output "C:/SomeDir/OutDir"```
+```ruby .\gitingest.rb --input [INPUT_PATH] --output [OUTPUT_PATH]```
 
 ## Viewing the results
 
